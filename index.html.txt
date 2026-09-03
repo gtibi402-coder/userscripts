@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>성진 ❤️</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, "Noto Sans KR", sans-serif;
+}
+
+body {
+    background: white;
+}
+
+.screen {
+    width: 100%;
+    height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding: 20px;
+}
+
+/* ================= 첫 화면 ================= */
+
+#firstScreen {
+    background: white;
+}
+
+.title {
+    font-size: 26px;
+    font-weight: bold;
+    line-height: 1.6;
+    color: #222;
+    margin-bottom: 28px;
+}
+
+.nameInput {
+    display: block;
+    width: 280px;
+    max-width: 85vw;
+    height: 52px;
+
+    padding: 10px 16px;
+
+    border: 2px solid #cccccc;
+    border-radius: 14px;
+
+    background-color: white;
+    color: #222;
+
+    font-family: Arial, "Noto Sans KR", sans-serif;
+    font-size: 18px;
+    line-height: 30px;
+
+    text-align: center;
+
+    outline: none;
+
+    /* 입력 자체는 반드시 허용 */
+    pointer-events: auto;
+    user-select: text;
+    -webkit-user-select: text;
+    touch-action: manipulation;
+}
+
+.nameInput:focus {
+    border-color: #555;
+}
+
+.nameInput::placeholder {
+    color: #999;
+}
+
+.okButton {
+    width: 150px;
+    height: 52px;
+
+    margin-top: 16px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: #222;
+    color: white;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+/* ================= 첫 질문 ================= */
+
+#questionScreen {
+    display: none;
+    background: white;
+}
+
+.question {
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1.6;
+    color: #222;
+}
+
+.questionSub {
+    margin-top: 8px;
+    font-size: 20px;
+    color: #555;
+}
+
+.buttons {
+    display: flex;
+    gap: 18px;
+    margin-top: 32px;
+}
+
+.answerButton {
+    width: 120px;
+    height: 52px;
+
+    border: none;
+    border-radius: 14px;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+    touch-action: manipulation;
+}
+
+.yesButton {
+    background: #ff4f81;
+    color: white;
+}
+
+.noButton {
+    background: #eeeeee;
+    color: #333;
+}
+
+/* ================= 우는 고양이 ================= */
+
+#sadScreen {
+    display: none;
+    background: white;
+}
+
+.cat {
+    font-size: 100px;
+    margin-bottom: 18px;
+}
+
+.sadText {
+    font-size: 23px;
+    font-weight: bold;
+    line-height: 1.6;
+    color: #444;
+}
+
+/* ================= 두 번째 질문 ================= */
+
+#secondQuestionScreen {
+    display: none;
+    position: relative;
+    background: white;
+}
+
+.secondText {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.6;
+    color: #333;
+}
+
+.secondButtons {
+    display: flex;
+    gap: 18px;
+    margin-top: 32px;
+}
+
+/* ================= LOVE 화면 ================= */
+
+#loveScreen {
+    display: none;
+    position: relative;
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffe5ee,
+            #ffc0d3
+        );
+}
+
+.loveTitle {
+    position: relative;
+    z-index: 10;
+
+    font-size: clamp(50px, 13vw, 90px);
+    font-weight: 900;
+
+    color: #ff2867;
+
+    animation: heartbeat 1s infinite;
+}
+
+.loveName {
+    position: relative;
+    z-index: 10;
+
+    margin-top: 20px;
+
+    max-width: 90%;
+
+    font-size: 23px;
+    font-weight: bold;
+
+    color: #ff3f76;
+}
+
+.heart {
+    position: absolute;
+
+    bottom: -60px;
+
+    pointer-events: none;
+
+    animation-name: floatHeart;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes heartbeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.12);
+    }
+}
+
+@keyframes floatHeart {
+    from {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(-120vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= 첫 화면 ================= -->
+
+<div id="firstScreen" class="screen">
+
+    <div class="title">
+        안녕! 내 이름은 성진이야.<br>
+        너의 이름은 뭐야?
+    </div>
+
+    <!-- 실제 입력창 -->
+    <input
+        id="nameInput"
+        class="nameInput"
+        type="text"
+        placeholder="이름을 입력해주세요"
+        maxlength="30"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="words"
+        spellcheck="false"
+    >
+
+    <button
+        id="okButton"
+        class="okButton"
+        type="button">
+        확인
+    </button>
+
+</div>
+
+
+<!-- ================= 질문 화면 ================= -->
+
+<div id="questionScreen" class="screen">
+
+    <div class="question">
+        제가 사랑하는 사람이 누군지 아시나요?
+    </div>
+
+    <div class="questionSub">
+        궁금하시나요?
+    </div>
+
+    <div class="buttons">
+
+        <button
+            id="yesButton1"
+            class="answerButton yesButton"
+            type="button">
+            응
+        </button>
+
+        <button
+            id="noButton1"
+            class="answerButton noButton"
+            type="button">
+            아니
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= 우는 고양이 ================= -->
+
+<div id="sadScreen" class="screen">
+
+    <div class="cat">😿</div>
+
+    <div class="sadText">
+        왜요?ㅜㅜ<br>
+        다시 한번 선택해주세요
+    </div>
+
+    <button
+        id="retryButton"
+        class="answerButton yesButton"
+        type="button"
+        style="margin-top:30px;">
+        다시 선택하기
+    </button>
+
+</div>
+
+
+<!-- ================= 두 번째 질문 ================= -->
+
+<div id="secondQuestionScreen" class="screen">
+
+    <div class="secondText">
+        정말 궁금하지 않으신가요? 🥺
+    </div>
+
+    <div class="secondButtons">
+
+        <button
+            id="yesButton2"
+            class="answerButton yesButton"
+            type="button">
+            응
+        </button>
+
+        <button
+            id="noButton2"
+            class="answerButton noButton"
+            type="button">
+            아니
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= LOVE 화면 ================= -->
+
+<div id="loveScreen" class="screen">
+
+    <div class="loveTitle">
+        LOVE ❤️❤️
+    </div>
+
+    <div id="loveName" class="loveName"></div>
+
+</div>
+
+
+<script>
+
+/* ================= 변수 ================= */
+
+let userName = "";
+let heartTimer = null;
+
+
+/* ================= 화면 전환 ================= */
+
+function hideAllScreens() {
+
+    document.getElementById("firstScreen").style.display = "none";
+    document.getElementById("questionScreen").style.display = "none";
+    document.getElementById("sadScreen").style.display = "none";
+    document.getElementById("secondQuestionScreen").style.display = "none";
+    document.getElementById("loveScreen").style.display = "none";
+}
+
+
+/* ================= 이름 확인 ================= */
+
+function startQuestion() {
+
+    const input = document.getElementById("nameInput");
+
+    const value = input.value.trim();
+
+    if (value.length === 0) {
+
+        alert("이름을 입력해주세요!");
+
+        input.focus();
+
+        return;
+    }
+
+    userName = value;
+
+    hideAllScreens();
+
+    document.getElementById("questionScreen").style.display = "flex";
+}
+
+
+/* ================= 응 ================= */
+
+function yesAnswer() {
+
+    hideAllScreens();
+
+    const loveScreen =
+        document.getElementById("loveScreen");
+
+    loveScreen.style.display = "flex";
+
+    document.getElementById("loveName").textContent =
+        "저는 " + userName + "을(를) 포함한 모두를 좋아합니다 ❤️";
+
+    startHearts();
+}
+
+
+/* ================= 첫 번째 아니 ================= */
+
+function noAnswerFirst() {
+
+    hideAllScreens();
+
+    document.getElementById("sadScreen").style.display = "flex";
+}
+
+
+/* ================= 다시 선택 ================= */
+
+function goSecondQuestion() {
+
+    hideAllScreens();
+
+    const noButton =
+        document.getElementById("noButton2");
+
+    /* 위치를 원래대로 초기화 */
+    noButton.style.position = "relative";
+    noButton.style.left = "";
+    noButton.style.top = "";
+    noButton.style.transform = "";
+
+    document.getElementById("secondQuestionScreen").style.display = "flex";
+}
+
+
+/* ================= 두 번째 아니 ================= */
+
+function runAwayNoButton() {
+
+    const button =
+        document.getElementById("noButton2");
+
+    const buttonWidth = button.offsetWidth;
+    const buttonHeight = button.offsetHeight;
+
+    const maxX =
+        window.innerWidth - buttonWidth - 20;
+
+    const maxY =
+        window.innerHeight - buttonHeight - 20;
+
+    const x =
+        Math.max(10, Math.random() * maxX);
+
+    const y =
+        Math.max(10, Math.random() * maxY);
+
+    button.style.position = "fixed";
+    button.style.left = x + "px";
+    button.style.top = y + "px";
+
+    button.style.transform =
+        "rotate(" +
+        (Math.random() * 30 - 15) +
+        "deg)";
+
+    document.getElementById("yesButton2").style.transform =
+        "scale(1.12)";
+}
+
+
+/* ================= 하트 ================= */
+
+function startHearts() {
+
+    if (heartTimer !== null) {
+        clearInterval(heartTimer);
+    }
+
+    heartTimer = setInterval(function() {
+
+        const heart =
+            document.createElement("div");
+
+        heart.className = "heart";
+
+        const heartList = [
+            "❤️",
+            "💕",
+            "💗",
+            "💖",
+            "💘",
+            "💝"
+        ];
+
+        heart.textContent =
+            heartList[
+                Math.floor(
+                    Math.random() * heartList.length
+                )
+            ];
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+        heart.style.fontSize =
+            (20 + Math.random() * 35) + "px";
+
+        heart.style.animationDuration =
+            (3 + Math.random() * 4) + "s";
+
+        document
+            .getElementById("loveScreen")
+            .appendChild(heart);
+
+        setTimeout(function() {
+
+            heart.remove();
+
+        }, 7000);
+
+    }, 180);
+}
+
+
+/* ================= 버튼 연결 ================= */
+
+/*
+   onclick 대신 JavaScript에서 직접 연결.
+   모바일 브라우저에서도 안정적으로 작동하도록 함.
+*/
+
+document
+    .getElementById("okButton")
+    .addEventListener("click", startQuestion);
+
+document
+    .getElementById("yesButton1")
+    .addEventListener("click", yesAnswer);
+
+document
+    .getElementById("noButton1")
+    .addEventListener("click", noAnswerFirst);
+
+document
+    .getElementById("retryButton")
+    .addEventListener("click", goSecondQuestion);
+
+document
+    .getElementById("yesButton2")
+    .addEventListener("click", yesAnswer);
+
+document
+    .getElementById("noButton2")
+    .addEventListener("click", runAwayNoButton);
+
+
+/* ================= 엔터키 ================= */
+
+document
+    .getElementById("nameInput")
+    .addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            startQuestion();
+        }
+    });
+
+</script>
+
+</body>
+</html>
